@@ -42,10 +42,7 @@ jobs:
           EMAIL_HOST: 'https://test_host'
           HOST: 'https://test_host:12345'
           API_KEY: 'test_key'
-          EMAIL_HOST_USER: 'test_name'
-          DEFAULT_FROM_EMAIL: 'test_password@ex.com'
           GRANT_TYPE: 'password'
-          EMAIL_HOST_PASSWORD: '12345'
           EMAIL_USE_TLS: 1
           DEBUG: 1
           ENDPOINT: '/api/test-endpoint'
