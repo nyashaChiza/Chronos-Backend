@@ -1,0 +1,8 @@
+django==4.2.2
+loguru
+django-allauth==0.54.0
+python-decouple==3.8.0
+django-dotenv==1.4.2
+djangorestframework==3.14.0
+ipython
+bpython
