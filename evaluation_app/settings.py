@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     
     "rest_framework",
+    
+    "accounts",
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -62,6 +64,12 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
 
 ROOT_URLCONF = "evaluation_app.urls"
 
@@ -149,3 +157,5 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGIN_URL = '/accounts/login/'
