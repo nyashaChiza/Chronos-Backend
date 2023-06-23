@@ -26,22 +26,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Set environment variables
-      env:
-        EMAIL_BACKEND: ${{ secrets.EMAIL_BACKEND }}
-        EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
-        EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
-        EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
-        EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
-        EMAIL_USE_TLS: ${{ secrets.EMAIL_USE_TLS }}
-        DEFAULT_FROM_EMAIL: ${{ secrets.DEFAULT_FROM_EMAIL }}
       run: |
-        echo "EMAIL_BACKEND=${EMAIL_BACKEND}" >> $GITHUB_ENV
-        echo "EMAIL_HOST=${EMAIL_HOST}" >> $GITHUB_ENV
-        echo "EMAIL_PORT=${EMAIL_PORT}" >> $GITHUB_ENV
-        echo "EMAIL_HOST_USER=${EMAIL_HOST_USER}" >> $GITHUB_ENV
-        echo "EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}" >> $GITHUB_ENV
-        echo "EMAIL_USE_TLS=${EMAIL_USE_TLS}" >> $GITHUB_ENV
-        echo "DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}" >> $GITHUB_ENV
+        echo "EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend" >> $GITHUB_ENV
+        echo "EMAIL_HOST=smtp.gmail.com" >> $GITHUB_ENV
+        echo "EMAIL_PORT=587" >> $GITHUB_ENV
+        echo "EMAIL_HOST_USER=test@gmail.com" >> $GITHUB_ENV
+        echo "EMAIL_HOST_PASSWORD=test" >> $GITHUB_ENV
+        echo "EMAIL_USE_TLS=True" >> $GITHUB_ENV
+        echo "DEFAULT_FROM_EMAIL=test@gmail.com" >> $GITHUB_ENV
     - name: Run tests
       run: |
         python manage.py test
+
+      
