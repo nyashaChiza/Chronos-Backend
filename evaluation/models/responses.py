@@ -6,7 +6,7 @@ class Response(models.Model):
     question = models.ForeignKey("evaluation.Question", on_delete=models.CASCADE)
     answer = models.TextField()
     is_reviewed = models.BooleanField(default=False)
-    reviewer = models.ForeignKey("evaluation.Participant", on_delete=models.SET_NULL, null=True, related_name="reviewed_responses")
+    reviewer = models.ForeignKey("evaluation.Participant", on_delete=models.SET_NULL, null=True, blank=True, related_name="reviewed_responses")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

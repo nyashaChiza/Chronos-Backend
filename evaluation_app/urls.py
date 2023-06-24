@@ -9,6 +9,7 @@ urlpatterns = [
     path("", RedirectView.as_view(url='/accounts/login/')),
     path("admin/", admin.site.urls),
     path("api/v1/accounts/", include('allauth.urls')),
+    path("api/v1/", include('evaluation.urls')),
 ]
 
 
