@@ -92,6 +92,7 @@ To implement the General Purpose Evaluation App, you can utilize Python Django f
 
 **Vue.js for Frontend:**
 1. **Installation**: Install Node.js and npm (Node Package Manager) on your development environment. Then, use npm to install Vue.js globally.
+tempalte URL: https://ui-lib.com/downloads/aatrox-vue-lite-vue-admin-template/
 
 2. **Project Setup**: Create a new Vue.js project using the Vue CLI (Command Line Interface) by running the `vue create` command. This will set up the basic structure for your frontend.
 
