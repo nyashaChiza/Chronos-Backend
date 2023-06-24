@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     
     "accounts",
     "evaluation",
+    "insights",
 ]
 
 AUTHENTICATION_BACKENDS = [
