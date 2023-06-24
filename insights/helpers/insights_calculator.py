@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models import Avg, Min, Max
-from .models import EvaluationInsights, ParticipantInsights, QuestionInsights, ResponseInsights
+from insights.models import EvaluationInsights, ParticipantInsights, QuestionInsights, ResponseInsights
 from evaluation.models import Evaluation, Participant, Question, Response
 
 class InsightsCalculator:
