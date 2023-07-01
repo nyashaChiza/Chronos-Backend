@@ -47,6 +47,6 @@ jobs:
           DEBUG: 1
           ENDPOINT: '/api/test-endpoint'
           BATCH_IMAGES_DIRECTORY: 'test path'
-     \
+     
 
       
