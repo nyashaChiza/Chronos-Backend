@@ -4,10 +4,10 @@ from django.dispatch import receiver
 from insights.helpers import InsightsCalculator
 
 class Response(models.Model):
-    evaluation = models.ForeignKey("evaluation.Evaluation", on_delete=models.CASCADE)
-    participant = models.ForeignKey("evaluation.Participant", on_delete=models.CASCADE)
-    question = models.ForeignKey("evaluation.Question", on_delete=models.CASCADE)
-    answer = models.TextField()
+    evaluation = models.ForeignKey("evaluation.Evaluation", on_delete=models.CASCADE,related_name="response_evaluation")
+    participant = models.ForeignKey("evaluation.Participant", on_delete=models.CASCADE,related_name="response_participant")
+    question = models.ForeignKey("evaluation.Question", on_delete=models.CASCADE,related_name="response_question")
+    answer = models.ForeignKey("evaluation.Answer", on_delete=models.CASCADE, related_name="response_answer")
     is_reviewed = models.BooleanField(default=False)
     reviewer = models.ForeignKey("evaluation.Participant", on_delete=models.SET_NULL, null=True, blank=True, related_name="reviewed_responses")
     created = models.DateTimeField(auto_now_add=True)
@@ -19,8 +19,8 @@ class Response(models.Model):
     
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        InsightsCalculator.calculate_and_store_evaluation_insights()
+        # InsightsCalculator.calculate_and_store_evaluation_insights()
 
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)
-        InsightsCalculator.calculate_and_store_evaluation_insights()
+        # InsightsCalculator.calculate_and_store_evaluation_insights()

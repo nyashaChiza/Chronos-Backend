@@ -1,8 +1,8 @@
 from django.db import models
-from evaluation.models import Evaluation 
+# from evaluation.models import Evaluation 
 
 class EvaluationInsights(models.Model):
-    evaluation = models.OneToOneField(Evaluation, on_delete=models.CASCADE)
+    evaluation = models.OneToOneField("evaluation.Evaluation", on_delete=models.CASCADE)
     total_participants = models.IntegerField()
     total_questions = models.IntegerField()
     total_responses = models.IntegerField()

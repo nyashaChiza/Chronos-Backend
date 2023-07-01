@@ -1,8 +1,8 @@
 from django.db import models
-from evaluation.models import Response, Participant, Evaluation
+
 
 class ResponseInsights(models.Model):
-    response = models.OneToOneField(Response, on_delete=models.CASCADE)
-    participant = models.OneToOneField(Participant, on_delete=models.CASCADE)
-    evaluation = models.OneToOneField(Evaluation, on_delete=models.CASCADE)
+    response = models.OneToOneField("evaluation.Response", on_delete=models.CASCADE)
+    participant = models.OneToOneField("evaluation.Participant", on_delete=models.CASCADE)
+    evaluation = models.OneToOneField("evaluation.Evaluation", on_delete=models.CASCADE)
     response_length = models.IntegerField()

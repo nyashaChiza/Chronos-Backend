@@ -1,18 +1,18 @@
-from django.db import models
 from django.db.models import Avg, Min, Max
 from insights.models import EvaluationInsights, ParticipantInsights, QuestionInsights, ResponseInsights
-from evaluation.models import Evaluation, Participant, Question, Response
 
 class InsightsCalculator:
     @staticmethod
     def calculate_and_store_insights():
-        InsightsCalculator.calculate_and_store_evaluation_insights()
-        InsightsCalculator.calculate_and_store_participant_insights()
-        InsightsCalculator.calculate_and_store_question_insights()
-        InsightsCalculator.calculate_and_store_response_insights()
+        from evaluation.models import Evaluation, Participant, Question, Response  # Import here instead
+
+        InsightsCalculator.calculate_and_store_evaluation_insights(Evaluation, Participant, Question, Response)
+        InsightsCalculator.calculate_and_store_participant_insights(Evaluation, Participant, Response)
+        InsightsCalculator.calculate_and_store_question_insights(Question, Evaluation, Response)
+        InsightsCalculator.calculate_and_store_response_insights(Response)
 
     @staticmethod
-    def calculate_and_store_evaluation_insights():
+    def calculate_and_store_evaluation_insights(Evaluation, Participant, Question, Response):
         evaluations = Evaluation.objects.all()
         for evaluation in evaluations:
             total_participants = Participant.objects.filter(evaluations=evaluation).count()
@@ -35,7 +35,7 @@ class InsightsCalculator:
             )
 
     @staticmethod
-    def calculate_and_store_participant_insights():
+    def calculate_and_store_participant_insights(Evaluation, Participant, Response):
         participants = Participant.objects.all()
         for participant in participants:
             total_evaluations = Evaluation.objects.filter(participants=participant).count()
@@ -52,7 +52,7 @@ class InsightsCalculator:
             )
 
     @staticmethod
-    def calculate_and_store_question_insights():
+    def calculate_and_store_question_insights(Question, Evaluation, Response):
         questions = Question.objects.all()
         total_evaluations = Evaluation.objects.count()
         for question in questions:
@@ -70,7 +70,7 @@ class InsightsCalculator:
             )
 
     @staticmethod
-    def calculate_and_store_response_insights():
+    def calculate_and_store_response_insights(Response):
         responses = Response.objects.all()
         for response in responses:
             participant = response.participant

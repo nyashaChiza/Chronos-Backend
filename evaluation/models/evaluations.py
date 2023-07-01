@@ -18,6 +18,9 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def number_of_evaluations(self):
+        return self.evaluations.count()
 
 class Attachment(models.Model):
     name = models.CharField(max_length=255)
@@ -38,18 +41,21 @@ class Evaluation(models.Model):
     is_public = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
     maximum_score = models.PositiveIntegerField(null=True, blank=True)
-    tags = models.ManyToManyField('Tag', null=True, blank=True)
+    tags = models.ManyToManyField('Tag', null=True, blank=True, related_name="evaluations")
     attachments = models.ManyToManyField('Attachment', null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        InsightsCalculator.calculate_and_store_evaluation_insights()
+        # InsightsCalculator.calculate_and_store_evaluation_insights()
 
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)
-        InsightsCalculator.calculate_and_store_evaluation_insights()
+        # InsightsCalculator.calculate_and_store_evaluation_insights()
 
     def __str__(self):
         return self.title
+    
+    def number_of_participants(self):
+        return self.participants.count()

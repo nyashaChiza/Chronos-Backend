@@ -18,8 +18,11 @@ class Question(models.Model):
     
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        InsightsCalculator.calculate_and_store_evaluation_insights()
+        # InsightsCalculator.calculate_and_store_evaluation_insights()
 
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)
-        InsightsCalculator.calculate_and_store_evaluation_insights()
+        # InsightsCalculator.calculate_and_store_evaluation_insights()
+        
+    def number_of_answers(self):
+        return self.answers.count()
