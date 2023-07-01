@@ -17,10 +17,7 @@ class Response(models.Model):
     def __str__(self):
         return f"Response for {self.evaluation.title} by {self.participant.name}"
     
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        # InsightsCalculator.calculate_and_store_evaluation_insights()
-
-    def delete(self, *args, **kwargs):
-        super().delete(*args, **kwargs)
-        # InsightsCalculator.calculate_and_store_evaluation_insights()
+    def response_time(self):
+        evaluation_start_time = self.evaluation.start_date
+        response_time = self.created - evaluation_start_time
+        return response_time.total_seconds()

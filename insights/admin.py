@@ -6,7 +6,7 @@ from insights.models import EvaluationInsights, ParticipantInsights, QuestionIns
 
 @admin.register(EvaluationInsights)
 class EvaluationInsightsAdmin(admin.ModelAdmin):
-    list_display = ('evaluation', 'total_participants', 'total_questions', 'total_responses', 'average_score', 'minimum_score', 'maximum_score')
+    list_display = ('evaluation', 'average_score', 'minimum_score', 'maximum_score', 'completion_rate')
     list_filter = ('evaluation',)
     search_fields = ('evaluation__name',)
 

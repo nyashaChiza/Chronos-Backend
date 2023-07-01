@@ -3,9 +3,9 @@ from django.db import models
 
 class EvaluationInsights(models.Model):
     evaluation = models.OneToOneField("evaluation.Evaluation", on_delete=models.CASCADE)
-    total_participants = models.IntegerField()
-    total_questions = models.IntegerField()
-    total_responses = models.IntegerField()
     average_score = models.FloatField()
     minimum_score = models.FloatField()
     maximum_score = models.FloatField()
+    
+    def completion_rate(self):
+        return  (self.evaluation.number_of_responses / self.evaluation.number_of_participants) * 100

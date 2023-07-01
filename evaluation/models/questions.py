@@ -26,3 +26,32 @@ class Question(models.Model):
         
     def number_of_answers(self):
         return self.answers.count()
+    
+    def least_selected_answer(self):
+        responses = self.response_question.all()
+
+        if responses.exists():
+            answer_counts = self._calculate_answer_counts(responses)
+            return min(answer_counts, key=answer_counts.get)
+        return None
+    
+    def most_selected_answer(self):
+        responses = self.response_question.all()
+
+        if responses.exists():
+            answer_counts = self._calculate_answer_counts(responses)
+            return max(answer_counts, key=answer_counts.get)
+        return None
+    
+    def _calculate_answer_counts(self, responses):
+        answer_counts = {}
+        
+        for response in responses:
+            selected_answer = response.answer
+            
+            if selected_answer in answer_counts:
+                answer_counts[selected_answer] += 1
+            else:
+                answer_counts[selected_answer] = 1
+        
+        return answer_counts

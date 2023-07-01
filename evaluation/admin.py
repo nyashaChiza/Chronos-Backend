@@ -10,7 +10,7 @@ class AnswerAdmin(admin.ModelAdmin):
 
 @admin.register(Evaluation)
 class EvaluationAdmin(admin.ModelAdmin):
-    list_display = ('title', 'number_of_participants','start_date', 'end_date')
+    list_display = ('title', 'number_of_participants','number_of_responses','start_date', 'end_date')
     list_filter = ('start_date', 'end_date')
     search_fields = ('title',)
 
@@ -26,13 +26,13 @@ class AttachmentAdmin(admin.ModelAdmin):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('text', 'evaluation','number_of_answers')
+    list_display = ('text', 'evaluation','number_of_answers','least_selected_answer', 'most_selected_answer')
     list_filter = ('evaluation',)
     search_fields = ('text', 'evaluation__title')
 
 @admin.register(Response)
 class ResponseAdmin(admin.ModelAdmin):
-    list_display = ('evaluation', 'participant', 'question', 'answer','created')
+    list_display = ('evaluation', 'participant', 'question', 'answer','response_time','created')
     list_filter = ('evaluation', 'participant', 'question')
     search_fields = ('evaluation__title', 'participant__name', 'question__text')
 
