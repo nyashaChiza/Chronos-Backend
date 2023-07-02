@@ -42,6 +42,7 @@ class Evaluation(models.Model):
     is_public = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
     maximum_score = models.PositiveIntegerField(null=True, blank=True)
+    maximum_participants = models.PositiveIntegerField(default=0)
     tags = models.ManyToManyField('Tag', null=True, blank=True, related_name="evaluations")
     attachments = models.ManyToManyField('Attachment', null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
