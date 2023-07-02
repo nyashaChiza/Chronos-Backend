@@ -27,4 +27,9 @@ class EvaluationInvite(models.Model):
     def get_invite_accept_link(self):
         return reverse('accept-invite', kwargs={'invite_uuid': self.uuid})
     
+    def save(self, *args, **kwargs):
+        if not self.evaluation.is_valid():
+            raise ValueError("Cannot save invite: Evaluation has ended.")
+        super().save(*args, **kwargs)
+    
 

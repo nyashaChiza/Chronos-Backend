@@ -21,3 +21,8 @@ class Response(models.Model):
         evaluation_start_time = self.evaluation.start_date
         response_time = self.created - evaluation_start_time
         return response_time.total_seconds()
+    
+    def save(self, *args, **kwargs):
+        if not self.question.evaluation.is_valid():
+            raise ValueError("Cannot save response: Evaluation has ended.")
+        super().save(*args, **kwargs)

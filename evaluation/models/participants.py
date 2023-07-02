@@ -21,6 +21,11 @@ class Participant(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.question.evaluation.is_valid():
+            raise ValueError("Cannot save participant: Evaluation has ended.")
+        super().save(*args, **kwargs)
 
     
     
