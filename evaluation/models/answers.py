@@ -20,3 +20,9 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.answer_text
+
+
+    def save(self, *args, **kwargs):
+        if not self.question.evaluation.is_valid():
+            raise ValueError("Cannot save answer: Evaluation has ended.")
+        super().save(*args, **kwargs)

@@ -11,14 +11,16 @@ class Question(models.Model):
     is_required = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    attachment =  models.FileField(upload_to="question_attachments/", null=True, blank=True)
 
 
     def __str__(self):
         return self.text
     
     def save(self, *args, **kwargs):
+        if not self.evaluation.is_valid():
+            raise ValueError("Cannot save question: Evaluation has ended.")
         super().save(*args, **kwargs)
-        # InsightsCalculator.calculate_and_store_evaluation_insights()
 
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)

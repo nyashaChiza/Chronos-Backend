@@ -1,5 +1,26 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers, viewsets
-from evaluation.models import Tag, Attachment, Question, Response, Participant, Evaluation, Answer
+from evaluation.models import Tag, Attachment, Question, Response, Participant, Evaluation, Answer, EvaluationInvite
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+class AcceptInviteAPIView(APIView):
+    def get(self, request, invite_uuid):
+        if not (
+            invite := EvaluationInvite.objects.filter(uuid=invite_uuid).first()
+        ):
+            return Response({'status':False,'message': 'Sorry, your invite is invalid'})
+        
+        if invite.is_valid():
+            invite.is_accepted = True
+            invite.save()
+        
+            return Response({'status':True,'message': 'Invite accepted successfully'})
+        else:
+            return Response({'status':False,'message': 'Sorry, your invite has expired'})
+
+        
 
 class TagSerializer(serializers.ModelSerializer):
     number_of_evaluations = serializers.SerializerMethodField()
@@ -10,7 +31,28 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = '__all__'
 
+class EvaluationInviteSerializer(serializers.ModelSerializer):
+    is_valid = serializers.SerializerMethodField()
+    
+    def get_is_valid(self, obj):
+        return obj.is_valid()
+    class Meta:
+        model = EvaluationInvite
+        fields = '__all__'
+
+class EvaluationInviteViewSet(viewsets.ModelViewSet):
+
+    queryset = EvaluationInvite.objects.all()
+    serializer_class = EvaluationInviteSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return EvaluationInviteSerializer
+        return self.serializer_class
+
+
 class AnswerSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Answer
         fields = '__all__'
@@ -73,6 +115,7 @@ class ResponseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ResponseViewSet(viewsets.ModelViewSet):
+    from evaluation.models import Response
     queryset = Response.objects.all()
     serializer_class = ResponseSerializer
 

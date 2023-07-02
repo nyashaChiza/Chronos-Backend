@@ -1,9 +1,19 @@
-from datetime import date
+from datetime import date, datetime, timedelta
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
-from insights.helpers import InsightsCalculator
+import uuid
+from datetime import datetime, timedelta
+from django.utils import timezone
+
+def send_reminder(self):
+    current_time = timezone.now()
+    start_date_minus_30 = self.start_date - timedelta(minutes=30)
+    start_date_minus_15 = self.start_date - timedelta(minutes=15)
+
+    return current_time < start_date_minus_30 or current_time < start_date_minus_15
+from django.urls import reverse
 
 STATUS_CHOICES = (
     ('draft', 'Draft'),
@@ -31,9 +41,10 @@ class Attachment(models.Model):
     
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
 
 class Evaluation(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=100)
     description = models.TextField()
     start_date = models.DateTimeField()
@@ -47,6 +58,16 @@ class Evaluation(models.Model):
     attachments = models.ManyToManyField('Attachment', null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    
+    def is_valid(self):
+        return  timezone.now() < self.end_date 
+    
+    def send_reminder(self):
+        current_time = timezone.now()
+        start_date_minus_30 = self.start_date - timedelta(minutes=30)
+        start_date_minus_15 = self.start_date - timedelta(minutes=15)
+
+        return current_time < start_date_minus_30 or current_time < start_date_minus_15    
     
     def age_distribution(self):
         age_distribution = {f"{range_start} - {range_start + 9}": 0 for range_start in range(18, 73, 10)}
@@ -89,3 +110,7 @@ class Evaluation(models.Model):
     
     def number_of_responses(self):
         return self.response_evaluation.count()
+    
+    def get_invite_link(self):
+        url =  "api/v1/participants/create/" # Replace 'create-participant' with your actual endpoint name
+        return f"{url}?ev={self.uuid}"

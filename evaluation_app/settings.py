@@ -13,7 +13,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 from decouple import config
 import ssl
+from loguru import logger
 
+LOGGER = logger
 ssl._create_default_https_context = ssl._create_unverified_context
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,7 +42,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
@@ -92,7 +93,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "evaluation_app.wsgi.application"
-
+HTTP_PROTOCOL = config('HTTP_PROTOCOL')
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
