@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
@@ -92,7 +91,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "evaluation_app.wsgi.application"
-
+HTTP_PROTOCOL = config('HTTP_PROTOCOL')
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

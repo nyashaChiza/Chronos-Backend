@@ -1,5 +1,12 @@
 from django.contrib import admin
-from .models import Evaluation, Tag, Attachment, Question, Response, Participant, Answer
+from .models import Evaluation, Tag, Attachment, Question, Response, Participant, Answer, EvaluationInvite
+
+
+@admin.register(EvaluationInvite)
+class EvaluationInviteAdmin(admin.ModelAdmin):
+    list_display = ('evaluation', 'participant','is_accepted' ,'is_valid',)
+    list_filter = ('evaluation', 'participant','is_accepted' )
+    search_fields = ('evaluation', 'participant','is_accepted' )
 
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):
