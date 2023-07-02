@@ -32,16 +32,27 @@ class TagSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class EvaluationInviteSerializer(serializers.ModelSerializer):
+    is_valid = serializers.SerializerMethodField()
+    
+    def get_is_valid(self, obj):
+        return obj.is_valid()
     class Meta:
         model = EvaluationInvite
         fields = '__all__'
 
 class EvaluationInviteViewSet(viewsets.ModelViewSet):
+
     queryset = EvaluationInvite.objects.all()
     serializer_class = EvaluationInviteSerializer
 
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return EvaluationInviteSerializer
+        return self.serializer_class
+
 
 class AnswerSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Answer
         fields = '__all__'
